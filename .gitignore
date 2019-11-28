@@ -1,0 +1,6 @@
+*.pem
+*.csr
+*.crt
+admission*
+.venv/
+*.log

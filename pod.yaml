@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: validation-demo
+  labels:
+    webhook: enabled
+    env: stg
+spec:
+  containers:
+  - name: nginx
+    image: nginx

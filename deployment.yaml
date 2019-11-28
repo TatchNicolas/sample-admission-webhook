@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-admission-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-admission-webhook
+  template:
+    metadata:
+      labels:
+        app: sample-admission-webhook
+    spec:
+      containers:
+      - name: app
+        image: tatchnicolas/sample-admission-webhook:0.10
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tls
+          mountPath: /tls
+        command: ["gunicorn"]
+        args: 
+        - "main:app"
+        - "--bind"
+        - "0.0.0.0:8080"
+        - "--access-logfile"
+        - "-"
+        - "--certfile"
+        - "/tls/tls.crt"
+        - "--keyfile"
+        - "/tls/tls.key"
+      volumes:
+      - name: tls
+        secret:
+          secretName: sample-admission-webhook-secret
