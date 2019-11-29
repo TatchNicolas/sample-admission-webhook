@@ -40,7 +40,7 @@ def mutate():
         operation = [{
             'op': 'replace',
             'path': '/metadata/name',
-            'value': 'dummy-suffix-' + name
+            'value': 'dummy-prefix' + name
         }]
         patch = base64.b64encode(json.dumps(operation).encode()).decode()
         return jsonify({
