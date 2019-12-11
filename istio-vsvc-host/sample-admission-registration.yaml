@@ -1,0 +1,26 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: "istio-vsvc-host"
+webhooks:
+- name: "istio-vsvc-host.hoge.fuga.local"
+  failurePolicy: Fail
+  # Webhook自体のPodやkube-systemのPodに影響してしまわないように
+  objectSelector:
+    matchLabels:
+      webhook: enabled
+  rules:
+  - apiGroups: [""]
+    operations: ["CREATE"]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    scope: "Namespaced"
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlakNDQVdLZ0F3SUJBZ0lVR2ExU2ljanRWTmJ5TzBtTzZ4d1JUTDBNcXBFd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0ZURVRNQkVHQTFVRUF4TUtiV2x1YVd0MVltVkRRVEFlRncweE9URXlNVEV3TlRJd01EQmFGdzB5TURFeQpNVEF3TlRJd01EQmFNQ1l4SkRBaUJnTlZCQU1URzJsemRHbHZMWFp6ZG1NdGFHOXpkQzVrWldaaGRXeDBMbk4yCll6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJKbUovTDlmZTVYWGRKKzdiQzljbXltWitMME4KY0ZMSk1LWFlnMDMyZkdVcU0ySzdPV3hDMWlTdTRWT3pTN2MwSGNSejY1UDdQQmV3Y2VkL2sxVUZicWVqZkRCNgpNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBVEFNQmdOVkhSTUJBZjhFCkFqQUFNQjBHQTFVZERnUVdCQlMvQ0syaHpyM1ptRUZMM3FpKzFzOWUvSEt3NnpBbUJnTlZIUkVFSHpBZGdodHAKYzNScGJ5MTJjM1pqTFdodmMzUXVaR1ZtWVhWc2RDNXpkbU13RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQU95bgpwVmpjMWE4U2p5MFVsSlUvemk1T1dZWmNoWk5UTEs4YXYvcVVYemRIbE1uVzR6UGUwaU50eWRhbG41UXdrdkd0CjhJQ3FDeXVlbHNTbWlHcDFyRGNDbXdXTkpRWjFFYWw3R0RhNUFiZm1NRllvcm1ZYmwxcHBORlJWSlAyTGo4ZDYKTHFEZGlvWDVZUkQ5bzg0MnhMd25tWVhYWUZFbXhpdkJZT0FBZ1FwRGZyRzJMZTlZZmZxckxVRHM5STVCOUZGTwpxdWYrWG9JRy9SMXJFRFVxUXlId2FjMElZSlBRcG1VYnJXbkR4VGErRTFxbGFhZXVwQkhrcGowL3BsQTBZNHRPCllSZ1VhamtWRklFNDZraEVkYU1CbmtpUDQwYWdzSFkvRGs1aVErYkdiTGIyZnNFaHZWd2E3b2hYUUl5WkdNdTAKZEtrd0ZnN3NCTzVvb2d5bDM0bz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    service:
+      namespace: default
+      name: istio-vsvc-host
+      path: /validate
+  admissionReviewVersions: ["v1", "v1beta1"]
+  timeoutSeconds: 5
+  sideEffects: None

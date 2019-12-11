@@ -1,0 +1,52 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: "sample-validating-webhook"
+webhooks:
+- name: "sample-validating-webhook.hoge.fuga.local"
+  failurePolicy: Fail
+  # Webhook自体のPodやkube-systemのPodに影響してしまわないように
+  objectSelector:
+    matchLabels:
+      webhook: enabled
+  rules:
+  - apiGroups: [""]
+    operations: ["CREATE"]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    scope: "Namespaced"
+  clientConfig:
+    caBundle: <server.crtの中身をbase64エンコードして貼る>
+    service:
+      namespace: default
+      name: sample-admission-webhook
+      path: /validate
+  admissionReviewVersions: ["v1", "v1beta1"]
+  timeoutSeconds: 5
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: "sample-mutating-webhook"
+webhooks:
+- name: "sample-mutating-webhook.hoge.fuga.local"
+  failurePolicy: Fail
+  objectSelector:
+    matchLabels:
+      webhook: enabled
+  rules:
+  - apiGroups: [""]
+    operations: ["CREATE"]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    scope: "Namespaced"
+  clientConfig:
+    caBundle: <server.crtの中身をbase64エンコードして貼る>
+    service:
+      namespace: default
+      name: sample-admission-webhook
+      path: /mutate
+  admissionReviewVersions: ["v1", "v1beta1"]
+  timeoutSeconds: 5
+  sideEffects: None
