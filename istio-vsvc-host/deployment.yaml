@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-vsvc-host
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: istio-vsvc-host
+  template:
+    metadata:
+      labels:
+        app: istio-vsvc-host
+    spec:
+      serviceAccountName: istio-vsvc-host-sa
+      containers:
+      - name: app
+        image: tatchnicolas/sample-admission-webhook:0.10
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tls
+          mountPath: /tls
+        command: ["gunicorn"]
+        args: 
+        - "main:app"
+        - "--bind"
+        - "0.0.0.0:8080"
+        - "--access-logfile"
+        - "-"
+        - "--certfile"
+        - "/tls/tls.crt"
+        - "--keyfile"
+        - "/tls/tls.key"
+      - name: kubectl
+        image: bitnami/kubectl
+        command: ["tail"]
+        args:
+        - -f
+        - /dev/null
+      volumes:
+      - name: tls
+        secret:
+          secretName: istio-vsvc-host
