@@ -4,6 +4,7 @@ metadata:
   name: new-vsvc
 spec:
   hosts:
+  - 'new.tatchnicolas.com'
   - 'fuga.tatchnicolas.com'
   http:
   - name: "ClusterIP"

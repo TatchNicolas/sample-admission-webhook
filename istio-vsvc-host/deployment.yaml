@@ -15,7 +15,7 @@ spec:
       serviceAccountName: istio-vsvc-host-sa
       containers:
       - name: app
-        image: tatchnicolas/istio-vsvc-host:0.3
+        image: tatchnicolas/istio-vsvc-host:0.5
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

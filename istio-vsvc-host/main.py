@@ -6,8 +6,10 @@ from kubernetes import client, config
 
 app = Flask(__name__)
 
-# config.load_incluster_config()
-config.load_kube_config()
+config.load_incluster_config()
+
+# telepresenceではこっちを使う
+# config.load_kube_config()
 conf=client.Configuration()
 api_client=client.ApiClient(configuration=conf)
 
@@ -18,9 +20,10 @@ def validate():
         req = request.get_json()
         new_hosts = req['request']['object']['spec']['hosts']
         apiserver_resp = api_client.call_api(
-                '/apis/networking.istio.io/v1alpha3/virtualservices','GET',
-                auth_settings=['BearerToken'],
-                response_type='object',
+            '/apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices',
+            'GET',
+            auth_settings=['BearerToken'],
+            response_type='object',
         )
         nested_existing_hosts = {
             tuple(item['spec']['hosts']) for item in apiserver_resp[0]['items']

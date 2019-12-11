@@ -16,3 +16,4 @@ requests.get('https://10.96.0.1:443/api/v1/namespaces/default/pods', verify=Fals
 conf=client.Configuration()
 api_client=client.ApiClient(configuration=conf)
 api_client.call_api('/api/v1/namespaces/default/pods','GET',auth_settings=['BearerToken'])
+api_client.call_api('/apis/networking.istio.io/v1alpha3/virtualservices','GET',auth_settings=['BearerToken'])
