@@ -25,8 +25,11 @@ def validate():
                 auth_settings=['BearerToken'],
                 response_type='object',
         )
-        existing_hosts = apiserver_resp[0]['items']
-        print(existing_hosts)
+        nested_existing_host_list = [
+            item['spec']['hosts'] for item in apiserver_resp[0]['items']
+        ]
+        flat_existing_host_list = [item for sublist in nested_existing_host_list for item in sublist]
+        print(flat_existing_host_list)
         return jsonify({
               'apiVersion': 'admission.k8s.io/v1',
               'kind': 'AdmissionReview',
