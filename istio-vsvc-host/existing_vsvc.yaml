@@ -2,8 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: existing-vsvc-1
-  labels:
-    webhook: enabled
 spec:
   hosts:
   - 'hoge.tatchnicolas.com'
@@ -17,8 +15,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: existing-vsvc-2
-  labels:
-    webhook: enabled
 spec:
   hosts:
   - 'fuga.tatchnicolas.com'
