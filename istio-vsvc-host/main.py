@@ -1,3 +1,5 @@
+import fnmatch
+
 from flask import Flask, jsonify, request
 from kubernetes import client, config
 
@@ -37,11 +39,11 @@ def validate():
             print(f'updated existing_hosts: {existing_hosts}')
 
         # hostsの被りがないかチェックする
-        pair = has_collision(new_hosts, existing_hosts)
+        pair = get_collision_pair(new_hosts, existing_hosts)
 
         if pair:
             allowed = False
-            message = f'{pair[0]} collides with {pair[1]}'
+            message = f'{pair[0]} collides with {pair[1]} which already exists'
         else:
             allowed = True
             message = f'No collision detected'
@@ -61,8 +63,8 @@ def validate():
     except (TypeError, KeyError):
         return jsonify({'message': 'Invalid request'}), 400
 
-def has_collision(new_hosts, existing_hosts):
+def get_collision_pair(new_hosts, existing_hosts):
     for new_host in new_hosts:
         for existing_host in existing_hosts:
-            if new_host == existing_host:
-                return (new_host, existing_host)
+            if fnmatch.fnmatch(new_host, existing_host) or fnmatch.fnmatch(existing_host, new_host):
+                return new_host, existing_host
