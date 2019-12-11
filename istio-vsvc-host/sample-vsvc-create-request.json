@@ -1,0 +1,76 @@
+{
+  "kind": "AdmissionReview",
+  "apiVersion": "admission.k8s.io/v1",
+  "request": {
+    "uid": "b4b97f43-f1a7-4c1c-8874-355e9d984b39",
+    "kind": {
+      "group": "networking.istio.io",
+      "version": "v1alpha3",
+      "kind": "VirtualService"
+    },
+    "resource": {
+      "group": "networking.istio.io",
+      "version": "v1alpha3",
+      "resource": "virtualservices"
+    },
+    "requestKind": {
+      "group": "networking.istio.io",
+      "version": "v1alpha3",
+      "kind": "VirtualService"
+    },
+    "requestResource": {
+      "group": "networking.istio.io",
+      "version": "v1alpha3",
+      "resource": "virtualservices"
+    },
+    "name": "new-vsvc",
+    "namespace": "default",
+    "operation": "CREATE",
+    "userInfo": {
+      "username": "minikube-user",
+      "groups": [
+        "system:masters",
+        "system:authenticated"
+      ]
+    },
+    "object": {
+      "apiVersion": "networking.istio.io/v1alpha3",
+      "kind": "VirtualService",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.istio.io/v1alpha3\",\"kind\":\"VirtualService\",\"metadata\":{\"annotations\":{},\"labels\":{\"webhook\":\"enabled\"},\"name\":\"new-vsvc\",\"namespace\":\"default\"},\"spec\":{\"hosts\":[\"new.tatchnicolas.com\"],\"http\":[{\"name\":\"ClusterIP\",\"route\":[{\"destination\":{\"host\":\"new-serivce.default.svc.cluster.local\"}}]}]}}\n"},
+        "creationTimestamp": "2019-12-11T10:59:38Z",
+        "generation": 1,
+        "labels": {
+          "webhook": "enabled"
+        },
+        "name": "new-vsvc",
+        "namespace": "default",
+        "uid": "b6765163-0d23-4edc-a4bf-f31dfbe9d01a"
+      },
+      "spec": {
+        "hosts": [
+          "new.tatchnicolas.com"
+        ],
+        "http": [
+          {
+            "name": "ClusterIP",
+            "route": [
+              {
+                "destination": {
+                  "host": "new-serivce.default.svc.cluster.local"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "oldObject": null,
+    "dryRun": false,
+    "options": {
+      "kind": "CreateOptions",
+      "apiVersion": "meta.k8s.io/v1"
+    }
+  }
+}

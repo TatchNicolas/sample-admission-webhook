@@ -6,7 +6,7 @@ metadata:
     webhook: enabled
 spec:
   hosts:
-  - 'new.tatchnicolas.com'
+  - 'fuga.tatchnicolas.com'
   http:
   - name: "ClusterIP"
     route:

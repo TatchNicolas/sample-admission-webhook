@@ -21,13 +21,13 @@ def validate():
             is_valid = False
             message = VALIDATION_ERROR_MSG
         return jsonify({
-              'apiVersion': 'admission.k8s.io/v1',
-              'kind': 'AdmissionReview',
-              'response': {
+            'apiVersion': 'admission.k8s.io/v1',
+            'kind': 'AdmissionReview',
+            'response': {
                 'uid': request.get_json()['request']['uid'],
                 'allowed': is_valid,
                 'status': {'message': message}
-                }
+            }
         }), 200
     except (TypeError, KeyError):
         return jsonify({'message': 'Invalid request'}), 400
